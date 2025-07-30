@@ -1,26 +1,19 @@
 import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
-import pool from './config/db.ts';
+import cors from 'cors';
+import authRoutes from './routes/auth.ts';
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/auth', authRoutes); // This mounts our /register endpoint
 
 app.get('/', (req, res) => {
   res.send('Server is up and running');
-});
-
-pool.query('SELECT NOW()', (err, result) => {
-  if (err) {
-    console.error('❌ Database connection failed:', err);
-  } else {
-    console.log('✅ Connected to DB at:', result.rows[0].now);
-  }
 });
 
 app.listen(PORT, () => {
