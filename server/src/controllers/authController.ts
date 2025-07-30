@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { registerUser } from '../services/userService.ts';
+import { registerUser } from '../services/register.service.ts';
 
 export async function handleRegister(req: Request, res: Response) {
   try {
