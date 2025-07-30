@@ -10,12 +10,12 @@ const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
-app.use('/api/auth', authRoutes); // This mounts our /register endpoint
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
   res.send('Server is up and running');
 });
 
 app.listen(PORT, () => {
-  console.log(`🌐 Server listening on http://localhost:${PORT}`);
+  console.log(`Server listening on http://localhost:${PORT}`);
 });
