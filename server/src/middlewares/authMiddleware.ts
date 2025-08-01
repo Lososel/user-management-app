@@ -13,7 +13,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     const decoded = verifyToken(token);
     req.user = decoded;
     next();
-  } catch (err) {
+  } catch {
     return res.status(403).json({ error: 'Invalid token' });
   }
 }
