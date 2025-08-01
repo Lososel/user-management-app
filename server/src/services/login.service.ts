@@ -17,5 +17,7 @@ export async function loginUser({ email, password }: LoginCredentials) {
     throw new Error('Invalid credentials');
   }
 
+  await pool.query('UPDATE users SET last_login = NOW() WHERE id = $1', [user.id]);
+
   return { id: user.id, name: user.name, email: user.email };
 }

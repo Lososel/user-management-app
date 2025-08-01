@@ -9,4 +9,3 @@ export function generateToken(payload: object): string {
 export function verifyToken(token: string): { id: number; iat: number; exp: number } {
   return jwt.verify(token, SECRET) as { id: number; iat: number; exp: number };
 }
-
