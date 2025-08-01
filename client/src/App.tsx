@@ -1,10 +1,9 @@
-import RegisterForm from './components/registration/RegisterForm';
+import React from 'react';
+import AppRouter from './routes/AppRouter';
 import './App.css'
 
-function App() {
-  return (
-    <RegisterForm/>
-  );
-}
+const App: React.FC = () => {
+  return <AppRouter />;
+};
 
 export default App;
