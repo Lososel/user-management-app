@@ -59,6 +59,12 @@ export function useAdminPanel(token: string | null) {
     const handleDelete = async () => {
         await deleteUsers(token!, selected);
         showMessage('Users deleted successfully');
+        const currentUserId = Number(JSON.parse(atob(token!.split('.')[1])).id);
+        if (selected.includes(currentUserId)) {
+            localStorage.removeItem('token');
+            navigate('/login');
+            return;
+        }
         setSelected([]);
         loadUsers();
     };
