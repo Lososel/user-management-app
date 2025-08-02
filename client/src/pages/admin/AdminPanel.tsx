@@ -16,11 +16,16 @@ const AdminPanel: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [selected, setSelected] = useState<number[]>([]);
     const token = localStorage.getItem('token');
-    useEffect(() => {
-        loadUsers();
-    }, []);
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+        loadUsers();
+    }, [token]);
 
     async function loadUsers() {
         const data = await fetchUsers(token!);
