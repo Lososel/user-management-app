@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 
 interface User {
     id: number;
@@ -16,6 +17,19 @@ interface Props {
 }
 
 const AdminTable: React.FC<Props> = ({ users, selected, onSelect, onSelectAll }) => {
+    const renderLastLogin = (lastLogin: string | null) => {
+        if (!lastLogin) return '-';
+
+        const loginDate = new Date(lastLogin);
+        const relativeTime = formatDistanceToNow(loginDate, { addSuffix: true });
+
+        return (
+            <span title={loginDate.toLocaleString()}>
+            {relativeTime}
+            </span>
+        );
+    };
+
     return (
     <table className="table table-striped table-hover">
         <thead>
@@ -35,7 +49,7 @@ const AdminTable: React.FC<Props> = ({ users, selected, onSelect, onSelectAll })
         </thead>
         <tbody>
             {users.map(user => (
-                <tr key={user.id}>
+                <tr key={user.id} className={user.status === 'blocked' ? 'text-muted' : ''}>
                     <td>
                         <input
                         type="checkbox"
@@ -43,10 +57,10 @@ const AdminTable: React.FC<Props> = ({ users, selected, onSelect, onSelectAll })
                         onChange={() => onSelect(user.id)}
                         />
                     </td>
-                    <td>{user.name}</td>
+                    <td style={{ textDecoration: user.status === 'blocked' ? 'line-through' : 'none' }}>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.status}</td>
-                    <td>{user.last_login ? new Date(user.last_login).toLocaleString() : '-'}</td>
+                    <td>{renderLastLogin(user.last_login)}</td>
                 </tr>
             ))}
         </tbody>
