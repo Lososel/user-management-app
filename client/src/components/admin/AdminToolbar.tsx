@@ -10,9 +10,27 @@ interface Props {
 const AdminToolbar: React.FC<Props> = ({ selectedCount, onBlock, onUnblock, onDelete }) => {
     return (
     <div className="toolbar mb-3">
-        <button className="btn btn-warning me-2" onClick={onBlock} disabled={!selectedCount}>Block</button>
-        <button className="btn btn-success me-2" onClick={onUnblock} disabled={!selectedCount}>Unblock</button>
-        <button className="btn btn-danger" onClick={onDelete} disabled={!selectedCount}>Delete</button>
+        <button 
+        className="btn btn-warning me-2" 
+        onClick={onBlock} 
+        disabled={!selectedCount} 
+        title="Block selected users">
+            Block
+        </button>
+        <button 
+        className="btn btn-success me-2" 
+        onClick={onUnblock} 
+        disabled={!selectedCount} 
+        title="Unblock selected users">
+            Unblock
+        </button>
+        <button 
+        className="btn btn-danger" 
+        onClick={onDelete} 
+        disabled={!selectedCount} 
+        title="Delete selected users">
+            Delete
+        </button>
     </div>
     );
 };

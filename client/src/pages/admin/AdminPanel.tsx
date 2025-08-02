@@ -37,6 +37,11 @@ const AdminPanel: React.FC = () => {
         setUsers(sortedUsers);
     }
 
+    function showMessage(msg: string) {
+        setMessage(msg);
+        setTimeout(() => setMessage(''), 4000);
+    }
+
     const handleSelect = (id: number) => {
         setSelected(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id]);
     };
@@ -47,21 +52,21 @@ const AdminPanel: React.FC = () => {
 
     const handleDelete = async () => {
         await deleteUsers(token!, selected);
-        setMessage('Users deleted successfully');
+        showMessage('Users deleted successfully');
         setSelected([]);
         loadUsers();
     };
 
     const handleBlock = async () => {
         await blockUsers(token!, selected);
-        setMessage('Users blocked successfully');
+        showMessage('Users blocked successfully');
         setSelected([]);
         loadUsers();
     };
 
     const handleUnblock = async () => {
         await unblockUsers(token!, selected);
-        setMessage('Users unblocked successfully');
+        showMessage('Users unblocked successfully');
         setSelected([]);
         loadUsers();
     };
@@ -89,7 +94,7 @@ const AdminPanel: React.FC = () => {
         onSelect={handleSelect}
         onSelectAll={handleSelectAll}
         />
-        {message && <div className="alert alert mt-3">{message}</div>}
+        {message && <div className="alert alert-primary mt-3">{message}</div>}
         </div>
     );
 };
