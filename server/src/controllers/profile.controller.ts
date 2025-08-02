@@ -9,7 +9,7 @@ export async function getProfile(req: Request, res: Response) {
   }
 
   try {
-    const result = await pool.query('SELECT id, name, email FROM users WHERE id = $1', [userId]);
+    const result = await pool.query('SELECT id, name, email, status, last_login FROM users WHERE id = $1', [userId]);
     const user = result.rows[0];
 
     if (!user) {
