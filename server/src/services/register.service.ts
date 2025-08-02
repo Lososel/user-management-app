@@ -8,9 +8,9 @@ export async function registerUser({ name, email, password }: NewUser) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const result = await pool.query(
-    `INSERT INTO users (name, email, password, status, registration_time)
-     VALUES ($1, $2, $3, $4, NOW())
-     RETURNING id, name, email`,
+    `INSERT INTO users (name, email, password, status, registration_time, last_login)
+     VALUES ($1, $2, $3, $4, NOW(), NOW())
+     RETURNING id, name, email, last_login`,
     [name, email, hashedPassword, 'active']
   );
 
