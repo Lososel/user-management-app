@@ -16,6 +16,9 @@ export async function loginUser({ email, password }: LoginCredentials) {
   if (!isPasswordValid) {
     throw new Error('Invalid credentials');
   }
+  if (user.status === 'blocked') {
+    throw new Error('Your account is blocked')
+  }
 
   await pool.query('UPDATE users SET last_login = NOW() WHERE id = $1', [user.id]);
 
