@@ -77,8 +77,8 @@ const AdminPanel: React.FC = () => {
     };
 
     return (
-        <div className="container mt-4">
-            <div className="d-flex justify-content-between align-items-center mb-3">
+        <div className="container card p-4">
+            <div className="d-flex mb-3 justify-content-between align-items-center">
                 <h2>User Management</h2>
                 <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
             </div>
