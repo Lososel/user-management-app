@@ -23,14 +23,14 @@ const AdminToolbar: React.FC<Props> = ({ selectedCount, onBlock, onUnblock, onDe
         onClick={onUnblock} 
         disabled={!selectedCount} 
         title="Unblock selected users">
-            <FaLockOpen className="me-1" /> Unblock
+            <FaLockOpen className="m-1" />
         </button>
         <button 
         className="btn btn-outline-danger d-flex align-items-center" 
         onClick={onDelete} 
         disabled={!selectedCount} 
         title="Delete selected users">
-            <FaTrash className="me-1" /> Delete
+            <FaTrash className="m-1" />
         </button>
         <span className="ms-3 text-muted medium">
         {selectedCount > 0 ? `${selectedCount} selected` : 'No selection'}
