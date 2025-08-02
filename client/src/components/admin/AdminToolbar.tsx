@@ -7,7 +7,7 @@ interface Props {
     onDelete: () => void;
 }
 
-const UsersToolbar: React.FC<Props> = ({ selectedCount, onBlock, onUnblock, onDelete }) => {
+const AdminToolbar: React.FC<Props> = ({ selectedCount, onBlock, onUnblock, onDelete }) => {
     return (
     <div className="toolbar mb-3">
         <button className="btn btn-warning me-2" onClick={onBlock} disabled={!selectedCount}>Block</button>
@@ -17,4 +17,4 @@ const UsersToolbar: React.FC<Props> = ({ selectedCount, onBlock, onUnblock, onDe
     );
 };
 
-export default UsersToolbar;
+export default AdminToolbar;

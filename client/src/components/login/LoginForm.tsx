@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 interface LoginFormData {
-  email: string;
+email: string;
   password: string;
 }
 
@@ -73,8 +73,7 @@ const LoginForm: React.FC = () => {
 
           <button type="submit" className="btn btn-primary w-100 mt-2">Login</button>
         </form>
-
-        {message && <div className="alert alert-info mt-3">{message}</div>}
+        {message && <div className="alert alert-danger mt-3">{message}</div>}
       </div>
     </div>
   );

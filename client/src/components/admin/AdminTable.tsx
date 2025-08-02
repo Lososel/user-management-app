@@ -15,7 +15,7 @@ interface Props {
     onSelectAll: () => void;
 }
 
-const UsersTable: React.FC<Props> = ({ users, selected, onSelect, onSelectAll }) => {
+const AdminTable: React.FC<Props> = ({ users, selected, onSelect, onSelectAll }) => {
     return (
     <table className="table table-striped table-hover">
         <thead>
@@ -53,4 +53,4 @@ const UsersTable: React.FC<Props> = ({ users, selected, onSelect, onSelectAll })
     </table>
     );
 };
-export default UsersTable;
+export default AdminTable;

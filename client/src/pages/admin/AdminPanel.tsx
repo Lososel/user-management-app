@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchUsers, deleteUsers, blockUsers, unblockUsers } from '../../api/users'
-import UsersTable from '../../components/table/UserTable';
-import UsersToolbar from '../../components/toolbar/UserToolbar';
+import AdminTable from '../../components/admin/AdminTable';
+import AdminToolbar from '../../components/admin/AdminToolbar';
 
 interface User {
     id: number;
@@ -18,6 +18,7 @@ const AdminPanel: React.FC = () => {
     useEffect(() => {
     loadUsers();
     }, []);
+    const [message, setMessage] = useState('');
 
     async function loadUsers() {
         const data = await fetchUsers(token!);
@@ -34,18 +35,21 @@ const AdminPanel: React.FC = () => {
 
     const handleDelete = async () => {
         await deleteUsers(token!, selected);
+        setMessage('Users deleted successfully');
         setSelected([]);
         loadUsers();
     };
 
     const handleBlock = async () => {
         await blockUsers(token!, selected);
+        setMessage('Users blocked successfully');
         setSelected([]);
         loadUsers();
     };
 
     const handleUnblock = async () => {
         await unblockUsers(token!, selected);
+        setMessage('Users unblocked successfully');
         setSelected([]);
         loadUsers();
     };
@@ -53,18 +57,19 @@ const AdminPanel: React.FC = () => {
     return (
         <div className="container mt-4">
             <h2>User Management</h2>
-            <UsersToolbar
+            <AdminToolbar
             selectedCount={selected.length}
             onBlock={handleBlock}
             onUnblock={handleUnblock}
             onDelete={handleDelete}
         />
-        <UsersTable
+        <AdminTable
         users={users}
         selected={selected}
         onSelect={handleSelect}
         onSelectAll={handleSelectAll}
         />
+        {message && <div className="alert alert mt-3">{message}</div>}
         </div>
     );
 };
