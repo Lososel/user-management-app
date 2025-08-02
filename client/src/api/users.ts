@@ -7,35 +7,29 @@ export async function fetchUsers(token: string) {
     return await res.json();
 }
 
-export async function deleteUsers(token: string, userIds: number[]) {
-    await fetch(API_URL, {
-        method: 'DELETE',
+async function request<T>(url: string, method: string, token: string, body?: object): Promise<T> {
+    const res = await fetch(url, {
+        method,
         headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
         },
-    body: JSON.stringify({ userIds }),
+        body: body ? JSON.stringify(body) : undefined,
     });
+
+    if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Request failed');
+    }
+
+    return res.json();
 }
 
-export async function blockUsers(token: string, userIds: number[]) {
-    await fetch(`${API_URL}/block`, {
-        method: 'PATCH',
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userIds }),
-    });
-}
+export const deleteUsers = (token: string, userIds: number[]) =>
+    request(`${API_URL}`, 'DELETE', token, { userIds });
 
-export async function unblockUsers(token: string, userIds: number[]) {
-    await fetch(`${API_URL}/unblock`, {
-        method: 'PATCH',
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userIds }),
-    });
-}
+export const blockUsers = (token: string, userIds: number[]) =>
+    request(`${API_URL}/block`, 'PATCH', token, { userIds });
+
+export const unblockUsers = (token: string, userIds: number[]) =>
+    request(`${API_URL}/unblock`, 'PATCH', token, { userIds });
