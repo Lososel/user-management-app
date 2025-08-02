@@ -13,6 +13,7 @@ export function useAdminPanel(token: string | null) {
     const [users, setUsers] = useState<User[]>([]);
     const [selected, setSelected] = useState<number[]>([]);
     const [message, setMessage] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         if (token) loadUsers();
@@ -62,10 +63,18 @@ export function useAdminPanel(token: string | null) {
         loadUsers();
     };
 
+    const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return {
         users,
+        filteredUsers,
         selected,
         message,
+        searchTerm,
+        setSearchTerm,
         handleSelect,
         handleSelectAll,
         handleDelete,

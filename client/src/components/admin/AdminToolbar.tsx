@@ -15,7 +15,7 @@ const AdminToolbar: React.FC<Props> = ({ selectedCount, onBlock, onUnblock, onDe
         className="btn btn-outline-primary me-2 d-flex align-items-center"
         onClick={onBlock} 
         disabled={!selectedCount}
-        >
+        title="Block selected users">
             <FaLock className="me-1" /> Block
         </button>
         <button 

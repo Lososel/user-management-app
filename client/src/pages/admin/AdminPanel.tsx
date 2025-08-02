@@ -5,6 +5,8 @@ import AdminTable from '../../components/admin/AdminTable';
 import Navbar from '../../components/navigation/NavBar';
 import { useAdminPanel } from '../../hooks/useAdminPanel';
 import { useUserProfile } from '../../hooks/useUserProfile';
+import UserFilter from '../../components/filter/Filter';
+
 
 const AdminPanel: React.FC = () => {
     const token = localStorage.getItem('token');
@@ -12,14 +14,16 @@ const AdminPanel: React.FC = () => {
     const navigate = useNavigate();
 
     const {
-        users,
+        filteredUsers,
         selected,
         message,
+        searchTerm,
+        setSearchTerm,
         handleSelect,
         handleSelectAll,
         handleDelete,
         handleBlock,
-        handleUnblock,
+        handleUnblock
     } = useAdminPanel(token);
 
     if (!token) {
@@ -32,18 +36,23 @@ const AdminPanel: React.FC = () => {
         <Navbar username={user?.name || 'Admin'} onLogout={() => navigate('/login')} />
             <div className="container card p-4">
                 <h4>admin panel</h4>
-                <AdminToolbar
-                selectedCount={selected.length}
-                onBlock={handleBlock}
-                onUnblock={handleUnblock}
-                onDelete={handleDelete}
-                />
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <AdminToolbar
+                    selectedCount={selected.length}
+                    onBlock={handleBlock}
+                    onUnblock={handleUnblock}
+                    onDelete={handleDelete}
+                    />
+                    <div className="ms-auto" >
+                        <UserFilter searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+                    </div>
+                </div>
                 <AdminTable
-                users={users}
+                users={filteredUsers}
                 selected={selected}
                 onSelect={handleSelect}
                 onSelectAll={handleSelectAll}
-                    />
+                />
                 {message && <div className="alert alert-primary mt-3">{message}</div>}
             </div>
     </div>
