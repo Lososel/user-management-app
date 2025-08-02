@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Input from '../input/Input.tsx';
 import { loginUser } from '../../api/auth.ts';
+import { useNavigate } from 'react-router-dom';
 
 
 interface LoginFormData {
@@ -13,6 +14,7 @@ const LoginForm: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<LoginFormData>();
   const [formData, setFormData] = useState<LoginFormData>({ email: '', password: '' });
   const [message, setMessage] = useState('');
+  const navigare = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,10 +23,11 @@ const LoginForm: React.FC = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await loginUser(data.email, data.password);
-      setMessage(`✅ ${response.message}`);
+      setMessage(`${response.message}`);
       
       if (response.token) {
         localStorage.setItem('token', response.token);
+        navigare('/admin');
       }
 
       reset();

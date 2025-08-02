@@ -12,7 +12,7 @@ export async function registerUser(name: string, email: string, password: string
     throw new Error(err.error || 'Registration failed');
   }
 
-  return res.json();
+  return await res.json();
 }
 
 export async function loginUser(email: string, password: string) {
@@ -27,5 +27,5 @@ export async function loginUser(email: string, password: string) {
     throw new Error(err.error || 'Login failed');
   }
 
-  return res.json();
+  return await res.json();
 }
