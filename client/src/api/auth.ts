@@ -29,3 +29,17 @@ export async function loginUser(email: string, password: string) {
 
   return await res.json();
 }
+
+export async function fetchProfile(token: string) {
+  const res = await fetch(`${API_URL}/profile`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch profile');
+  }
+
+  return await res.json();
+}

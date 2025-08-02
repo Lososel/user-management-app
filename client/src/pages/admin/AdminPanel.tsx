@@ -1,101 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { fetchUsers, deleteUsers, blockUsers, unblockUsers } from '../../api/users'
-import AdminTable from '../../components/admin/AdminTable';
-import AdminToolbar from '../../components/admin/AdminToolbar';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
-interface User {
-    id: number;
-    name: string;
-    email: string;
-    status: string;
-    last_login: string | null;
-}
+import AdminToolbar from '../../components/admin/AdminToolbar';
+import AdminTable from '../../components/admin/AdminTable';
+import Navbar from '../../components/navigation/NavBar';
+import { useAdminPanel } from '../../hooks/useAdminPanel';
+import { useUserProfile } from '../../hooks/useUserProfile';
 
 const AdminPanel: React.FC = () => {
-    const [users, setUsers] = useState<User[]>([]);
-    const [selected, setSelected] = useState<number[]>([]);
     const token = localStorage.getItem('token');
-    const [message, setMessage] = useState('');
+    const { user } = useUserProfile(token);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (!token) {
-            navigate('/login');
-            return;
-        }
-        loadUsers();
-    }, [token]);
+    const {
+        users,
+        selected,
+        message,
+        handleSelect,
+        handleSelectAll,
+        handleDelete,
+        handleBlock,
+        handleUnblock,
+    } = useAdminPanel(token);
 
-    async function loadUsers() {
-        const data = await fetchUsers(token!);
-        const sortedUsers = (data.users || []).sort((a: User, b: User) => {
-            const dateA = a.last_login ? new Date(a.last_login).getTime() : 0;
-            const dateB = b.last_login ? new Date(b.last_login).getTime() : 0;
-            return dateB - dateA;
-        });
-        setUsers(sortedUsers);
-    }
-
-    function showMessage(msg: string) {
-        setMessage(msg);
-        setTimeout(() => setMessage(''), 4000);
-    }
-
-    const handleSelect = (id: number) => {
-        setSelected(prev => prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id]);
-    };
-
-    const handleSelectAll = () => {
-        setSelected(selected.length === users.length ? [] : users.map(u => u.id));
-    };
-
-    const handleDelete = async () => {
-        await deleteUsers(token!, selected);
-        showMessage('Users deleted successfully');
-        setSelected([]);
-        loadUsers();
-    };
-
-    const handleBlock = async () => {
-        await blockUsers(token!, selected);
-        showMessage('Users blocked successfully');
-        setSelected([]);
-        loadUsers();
-    };
-
-    const handleUnblock = async () => {
-        await unblockUsers(token!, selected);
-        showMessage('Users unblocked successfully');
-        setSelected([]);
-        loadUsers();
-    };
-    
-    const handleLogout = () => {
-        localStorage.removeItem('token');
+    if (!token) {
         navigate('/login');
-    };
+        return null;
+    }
 
     return (
-        <div className="container card p-4">
-            <div className="d-flex mb-3 justify-content-between align-items-center">
-                <h2>User Management</h2>
-                <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
+    <div className="container-fluid p-0">
+        <Navbar username={user?.name || 'Admin'} onLogout={() => navigate('/login')} />
+            <div className="container card p-4">
+                <h4>admin panel</h4>
+                <AdminToolbar
+                selectedCount={selected.length}
+                onBlock={handleBlock}
+                onUnblock={handleUnblock}
+                onDelete={handleDelete}
+                />
+                <AdminTable
+                users={users}
+                selected={selected}
+                onSelect={handleSelect}
+                onSelectAll={handleSelectAll}
+                    />
+                {message && <div className="alert alert-primary mt-3">{message}</div>}
             </div>
-            <AdminToolbar
-            selectedCount={selected.length}
-            onBlock={handleBlock}
-            onUnblock={handleUnblock}
-            onDelete={handleDelete}
-        />
-        <AdminTable
-        users={users}
-        selected={selected}
-        onSelect={handleSelect}
-        onSelectAll={handleSelectAll}
-        />
-        {message && <div className="alert alert-primary mt-3">{message}</div>}
-        </div>
+    </div>
     );
 };
 
