@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchUsers, deleteUsers, blockUsers, unblockUsers } from '../../api/users'
 import AdminTable from '../../components/admin/AdminTable';
 import AdminToolbar from '../../components/admin/AdminToolbar';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
     id: number;
@@ -19,6 +20,7 @@ const AdminPanel: React.FC = () => {
         loadUsers();
     }, []);
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     async function loadUsers() {
         const data = await fetchUsers(token!);
@@ -58,10 +60,18 @@ const AdminPanel: React.FC = () => {
         setSelected([]);
         loadUsers();
     };
+    
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
 
     return (
         <div className="container mt-4">
-            <h2>User Management</h2>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+                <h2>User Management</h2>
+                <button className="btn btn-secondary" onClick={handleLogout}>Logout</button>
+            </div>
             <AdminToolbar
             selectedCount={selected.length}
             onBlock={handleBlock}
