@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchUsers, deleteUsers, blockUsers, unblockUsers } from '../api/users';
+import { useNavigate } from 'react-router-dom';
 
 export interface User {
     id: number;
@@ -17,6 +18,7 @@ export function useAdminPanel(token: string | null) {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortKey, setSortKey] = useState<SortKeys>('last_login');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (token) loadUsers();
@@ -64,6 +66,12 @@ export function useAdminPanel(token: string | null) {
     const handleBlock = async () => {
         await blockUsers(token!, selected);
         showMessage('Users blocked successfully');
+        const currentUserId = Number(JSON.parse(atob(token!.split('.')[1])).id);
+        if (selected.includes(currentUserId)) {
+            localStorage.removeItem('token');
+            navigate ('/login');
+            return;
+        }
         setSelected([]);
         loadUsers();
     };
