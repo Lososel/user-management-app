@@ -16,13 +16,18 @@ const AdminPanel: React.FC = () => {
     const [selected, setSelected] = useState<number[]>([]);
     const token = localStorage.getItem('token');
     useEffect(() => {
-    loadUsers();
+        loadUsers();
     }, []);
     const [message, setMessage] = useState('');
 
     async function loadUsers() {
         const data = await fetchUsers(token!);
-        setUsers(data.users || []);
+        const sortedUsers = (data.users || []).sort((a: User, b: User) => {
+            const dateA = a.last_login ? new Date(a.last_login).getTime() : 0;
+            const dateB = b.last_login ? new Date(b.last_login).getTime() : 0;
+            return dateB - dateA;
+        });
+        setUsers(sortedUsers);
     }
 
     const handleSelect = (id: number) => {
