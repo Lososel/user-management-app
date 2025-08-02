@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
+import SortableHeader from '../sort/SortableHeader';
 
 interface User {
     id: number;
@@ -9,14 +10,27 @@ interface User {
     last_login: string | null;
 }
 
+type SortKeys = 'name' | 'email' | 'status' | 'last_login';
+
 interface Props {
     users: User[];
     selected: number[];
     onSelect: (id: number) => void;
     onSelectAll: () => void;
+    onSort: (key: SortKeys) => void;
+    sortKey: SortKeys;
+    sortOrder: 'asc' | 'desc';
 }
 
-const AdminTable: React.FC<Props> = ({ users, selected, onSelect, onSelectAll }) => {
+const AdminTable: React.FC<Props> = ({
+    users,
+    selected,
+    onSelect,
+    onSelectAll,
+    onSort,
+    sortKey,
+    sortOrder,
+}) => {
     const renderLastLogin = (lastLogin: string | null) => {
         if (!lastLogin) return '-';
 
@@ -41,10 +55,34 @@ const AdminTable: React.FC<Props> = ({ users, selected, onSelect, onSelectAll })
                     onChange={onSelectAll}
                 />
                 </th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Last Login</th>
+                <SortableHeader
+                title="Name"
+                sortKey="name"
+                currentSortKey={sortKey}
+                sortOrder={sortOrder}
+                onSort={onSort}
+                />
+                <SortableHeader
+                title="Email"
+                sortKey="email"
+                currentSortKey={sortKey}
+                sortOrder={sortOrder}
+                onSort={onSort}
+                />
+                <SortableHeader
+                title="Status"
+                sortKey="status"
+                currentSortKey={sortKey}
+                sortOrder={sortOrder}
+                onSort={onSort}
+                />
+                <SortableHeader
+                title="Last Login"
+                sortKey="last_login"
+                currentSortKey={sortKey}
+                sortOrder={sortOrder}
+                onSort={onSort}
+                />
             </tr>
         </thead>
         <tbody>

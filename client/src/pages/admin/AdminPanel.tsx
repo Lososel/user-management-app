@@ -18,12 +18,15 @@ const AdminPanel: React.FC = () => {
         selected,
         message,
         searchTerm,
+        sortKey,
+        sortOrder,
         setSearchTerm,
         handleSelect,
         handleSelectAll,
         handleDelete,
         handleBlock,
-        handleUnblock
+        handleUnblock,
+        handleSort
     } = useAdminPanel(token);
 
     if (!token) {
@@ -52,6 +55,9 @@ const AdminPanel: React.FC = () => {
                 selected={selected}
                 onSelect={handleSelect}
                 onSelectAll={handleSelectAll}
+                onSort={handleSort}
+                sortKey={sortKey}
+                sortOrder={sortOrder}
                 />
                 {message && <div className="alert alert-primary mt-3">{message}</div>}
             </div>

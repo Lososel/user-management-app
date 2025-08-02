@@ -8,12 +8,15 @@ export interface User {
     status: string;
     last_login: string | null;
 }
+export type SortKeys = 'name' | 'email' | 'status' | 'last_login';
 
 export function useAdminPanel(token: string | null) {
     const [users, setUsers] = useState<User[]>([]);
     const [selected, setSelected] = useState<number[]>([]);
     const [message, setMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [sortKey, setSortKey] = useState<SortKeys>('last_login');
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
     useEffect(() => {
         if (token) loadUsers();
@@ -32,6 +35,15 @@ export function useAdminPanel(token: string | null) {
     function showMessage(msg: string) {
         setMessage(msg);
         setTimeout(() => setMessage(''), 4000);
+    }
+
+    function handleSort(key: 'name' | 'email' | 'status' | 'last_login') {
+        if (sortKey === key) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortKey(key);
+            setSortOrder('asc');
+        }
     }
 
     const handleSelect = (id: number) => {
@@ -63,10 +75,24 @@ export function useAdminPanel(token: string | null) {
         loadUsers();
     };
 
-    const filteredUsers = users.filter(user =>
+    const filteredUsers = users
+    .filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    )
+    .sort((a, b) => {
+        const valA = a[sortKey] || '';
+        const valB = b[sortKey] || '';
+        
+        if (sortKey === 'last_login') {
+            return sortOrder === 'asc'
+            ? new Date(valA || 0).getTime() - new Date(valB || 0).getTime()
+            : new Date(valB || 0).getTime() - new Date(valA || 0).getTime();
+        }
+        return sortOrder === 'asc'
+        ? String(valA).localeCompare(String(valB))
+        : String(valB).localeCompare(String(valA));
+    });
 
     return {
         users,
@@ -81,6 +107,9 @@ export function useAdminPanel(token: string | null) {
         handleBlock,
         handleUnblock,
         setSelected,
-        setMessage
+        setMessage,
+        sortKey,
+        sortOrder,
+        handleSort
     };
 }
