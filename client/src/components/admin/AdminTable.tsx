@@ -45,64 +45,66 @@ const AdminTable: React.FC<Props> = ({
     };
 
     return (
-    <table className="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>
-                    <input
-                    type="checkbox"
-                    checked={selected.length === users.length && users.length > 0}
-                    onChange={onSelectAll}
-                />
-                </th>
-                <SortableHeader
-                title="Name"
-                sortKey="name"
-                currentSortKey={sortKey}
-                sortOrder={sortOrder}
-                onSort={onSort}
-                />
-                <SortableHeader
-                title="Email"
-                sortKey="email"
-                currentSortKey={sortKey}
-                sortOrder={sortOrder}
-                onSort={onSort}
-                />
-                <SortableHeader
-                title="Status"
-                sortKey="status"
-                currentSortKey={sortKey}
-                sortOrder={sortOrder}
-                onSort={onSort}
-                />
-                <SortableHeader
-                title="Last Login"
-                sortKey="last_login"
-                currentSortKey={sortKey}
-                sortOrder={sortOrder}
-                onSort={onSort}
-                />
-            </tr>
-        </thead>
-        <tbody>
-            {users.map(user => (
-                <tr key={user.id} className={user.status === 'blocked' ? 'text-muted' : ''}>
-                    <td>
-                        <input
-                        type="checkbox"
-                        checked={selected.includes(user.id)}
-                        onChange={() => onSelect(user.id)}
+        <div className="table-responsive">
+            <table className="table table-striped table-hover table-sm" style={{ fontSize: '0.85rem' }}>
+                <thead>
+                    <tr>
+                        <th>
+                            <input
+                            type="checkbox"
+                            checked={selected.length === users.length && users.length > 0}
+                            onChange={onSelectAll}
                         />
-                    </td>
-                    <td style={{ textDecoration: user.status === 'blocked' ? 'line-through' : 'none' }}>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.status}</td>
-                    <td>{renderLastLogin(user.last_login)}</td>
-                </tr>
-            ))}
-        </tbody>
-    </table>
+                        </th>
+                        <SortableHeader
+                        title="Name"
+                        sortKey="name"
+                        currentSortKey={sortKey}
+                        sortOrder={sortOrder}
+                        onSort={onSort}
+                        />
+                        <SortableHeader
+                        title="Email"
+                        sortKey="email"
+                        currentSortKey={sortKey}
+                        sortOrder={sortOrder}
+                        onSort={onSort}
+                        />
+                        <SortableHeader
+                        title="Status"
+                        sortKey="status"
+                        currentSortKey={sortKey}
+                        sortOrder={sortOrder}
+                        onSort={onSort}
+                        />
+                        <SortableHeader
+                        title="Last Login"
+                        sortKey="last_login"
+                        currentSortKey={sortKey}
+                        sortOrder={sortOrder}
+                        onSort={onSort}
+                        />
+                    </tr>
+                </thead>
+                <tbody>
+                    {users.map(user => (
+                        <tr key={user.id} className={user.status === 'blocked' ? 'text-muted' : ''}>
+                            <td>
+                                <input
+                                type="checkbox"
+                                checked={selected.includes(user.id)}
+                                onChange={() => onSelect(user.id)}
+                                />
+                            </td>
+                            <td style={{ textDecoration: user.status === 'blocked' ? 'line-through' : 'none' }}>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.status}</td>
+                            <td>{renderLastLogin(user.last_login)}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 };
 export default AdminTable;

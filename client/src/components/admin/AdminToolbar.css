@@ -1,0 +1,10 @@
+@media (max-width: 576px) {
+  .toolbar button {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .toolbar span {
+    font-size: 0.7rem;
+  }
+}

@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_USERS_URL;
+const API_URL = import.meta.env.VITE_USERS_URL || 'http://localhost:5001/api/users';
 
 export async function fetchUsers(token: string) {
     const res = await fetch(API_URL, {

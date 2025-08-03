@@ -16,11 +16,11 @@ const Navbar: React.FC<NavbarProps> = ({ username, onLogout }) => {
     };
 
     return (
-    <nav className="navbar navbar-light bg-light px-4 mb-4 d-flex justify-content-between align-items-center shadow-sm">
+    <nav className="d-flex justify-content-between align-items-center p-2 mb-4 border-bottom">
         <div className="navbar-brand fw-bold fs-4">User Management App</div>
-        <div className="d-flex align-items-center gap-3">
-            <span className="text-muted">Hello, {username}</span>
-            <button className="btn btn-outline-danger btn-sm" onClick={handleLogout}>
+        <div className="d-flex align-items-center">
+            <span className="text-muted m-2">{username}</span>
+            <button className="btn btn-outline-danger btn-sm ms-auto" onClick={handleLogout}>
                 Logout
             </button>
         </div>

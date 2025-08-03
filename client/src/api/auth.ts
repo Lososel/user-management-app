@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_AUTH_URL;
+const API_URL = import.meta.env.VITE_AUTH_URL || 'http://localhost:5001/api/auth';
 
 export async function registerUser(name: string, email: string, password: string) {
   const res = await fetch(`${API_URL}/register`, {

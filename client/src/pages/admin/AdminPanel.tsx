@@ -37,8 +37,8 @@ const AdminPanel: React.FC = () => {
     return (
     <div className="container-fluid p-0">
         <Navbar username={user?.name || 'Admin'} onLogout={() => navigate('/login')} />
-            <div className="container card p-4">
-                <h4>admin panel</h4>
+            <div className="container card p-3" style={{ paddingRight: '1rem' }}>
+                <h4 className='mb-3' style={{ fontSize: '1.1rem' }}>admin panel</h4>
                 <div className="d-flex justify-content-between align-items-center mb-3">
                     <AdminToolbar
                     selectedCount={selected.length}
