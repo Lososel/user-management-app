@@ -9,15 +9,33 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors());
 app.use(express.json());
+
+const allowedOrigins = [
+  'https://user-app-elmira.netlify.app',
+  'http://localhost:3000',
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`, req.body || {});
+  next();
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Server is up and running');
+  res.send('Server is up and running on Render');
 });
 
 app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
