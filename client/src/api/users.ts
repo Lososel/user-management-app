@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL + '/users';
+const API_URL = import.meta.env.VITE_USERS_URL;
 
 export async function fetchUsers(token: string) {
     const res = await fetch(API_URL, {
