@@ -9,8 +9,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "moduleResolution": "nodenext",
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
     "forceConsistentCasingInFileNames": true
   },
   "ts-node": {
