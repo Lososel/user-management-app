@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import pool from '../config/db.ts';
-import { generateToken } from '../utils/jwt.ts';
+import pool from '../config/db.js';
+import { generateToken } from '../utils/jwt.js';
 
 interface LoginInput {
   email: string;

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyToken } from '../utils/jwt.ts';
-import pool from '../config/db.ts';
+import { verifyToken } from '../utils/jwt.js';
+import pool from '../config/db.js';
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;

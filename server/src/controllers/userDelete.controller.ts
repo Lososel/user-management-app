@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import pool from '../config/db.ts';
+import pool from '../config/db.js';
 
 export async function deleteUsers(req: Request, res: Response) {
   const { userIds } = req.body;

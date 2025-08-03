@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import pool from '../config/db.ts';
-import { NewUser } from '../types/user.ts';
-import { generateToken } from '../utils/jwt.ts';
+import pool from '../config/db.js';
+import { NewUser } from '../types/user.js';
+import { generateToken } from '../utils/jwt.js';
 
 export async function registerUser({ name, email, password }: NewUser) {
   if (!password) throw new Error('Password is missing');

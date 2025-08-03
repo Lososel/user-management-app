@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { loginUser } from '../services/login.service.ts';
-import { generateToken } from '../utils/jwt.ts';
+import { loginUser } from '../services/login.service.js';
+import { generateToken } from '../utils/jwt.js';
 
 export async function handleLogin(req: Request, res: Response) {
   try {

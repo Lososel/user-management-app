@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import pool from '../config/db.ts';
+import pool from '../config/db.js';
 
 export async function updateUserStatus(req: Request, res: Response) {
   const { userIds, status } = req.body;

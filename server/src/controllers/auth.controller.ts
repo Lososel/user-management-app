@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { registerUser } from '../services/register.service.ts';
-import { PostgresError } from '../types/db.ts';
+import { registerUser } from '../services/register.service.js';
+import { PostgresError } from '../types/db.js';
 
 export async function handleRegister(req: Request, res: Response) {
   try {

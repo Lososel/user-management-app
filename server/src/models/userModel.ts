@@ -1,4 +1,4 @@
-import pool from '../config/db.ts';
+import pool from '../config/db.js';
 
 export const createUser = async (name: string, email: string, hashedPassword: string) => {
   const result = await pool.query(

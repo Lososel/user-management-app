@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { handleLogin } from '../controllers/login.controller.ts';
-import { getProfile } from '../controllers/profile.controller.ts';
-import { authMiddleware } from '../middlewares/authMiddleware.ts';
-import { handleRegister } from '../controllers/auth.controller.ts';
+import { handleLogin } from '../controllers/login.controller.js';
+import { getProfile } from '../controllers/profile.controller.js';
+import { authMiddleware } from '../middlewares/authMiddleware.js';
+import { handleRegister } from '../controllers/auth.controller.js';
 
 const router = Router();
 
