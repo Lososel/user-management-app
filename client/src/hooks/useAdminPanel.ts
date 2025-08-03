@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchUsers, deleteUsers, blockUsers, unblockUsers } from '../api/users';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export interface User {
     id: number;
@@ -14,7 +15,6 @@ export type SortKeys = 'name' | 'email' | 'status' | 'last_login';
 export function useAdminPanel(token: string | null) {
     const [users, setUsers] = useState<User[]>([]);
     const [selected, setSelected] = useState<number[]>([]);
-    const [message, setMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [sortKey, setSortKey] = useState<SortKeys>('last_login');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
@@ -32,11 +32,6 @@ export function useAdminPanel(token: string | null) {
             return dateB - dateA;
         });
         setUsers(sortedUsers);
-    }
-
-    function showMessage(msg: string) {
-        setMessage(msg);
-        setTimeout(() => setMessage(''), 4000);
     }
 
     function handleSort(key: 'name' | 'email' | 'status' | 'last_login') {
@@ -58,7 +53,7 @@ export function useAdminPanel(token: string | null) {
 
     const handleDelete = async () => {
         await deleteUsers(token!, selected);
-        showMessage('Users deleted successfully');
+        toast.warn('Users deleted successfully');
         const currentUserId = Number(JSON.parse(atob(token!.split('.')[1])).id);
         if (selected.includes(currentUserId)) {
             localStorage.removeItem('token');
@@ -71,7 +66,7 @@ export function useAdminPanel(token: string | null) {
 
     const handleBlock = async () => {
         await blockUsers(token!, selected);
-        showMessage('Users blocked successfully');
+        toast.info('Users blocked successfully');
         const currentUserId = Number(JSON.parse(atob(token!.split('.')[1])).id);
         if (selected.includes(currentUserId)) {
             localStorage.removeItem('token');
@@ -84,7 +79,7 @@ export function useAdminPanel(token: string | null) {
 
     const handleUnblock = async () => {
         await unblockUsers(token!, selected);
-        showMessage('Users unblocked successfully');
+        toast.success('Users unblocked successfully');
         setSelected([]);
         loadUsers();
     };
@@ -112,7 +107,6 @@ export function useAdminPanel(token: string | null) {
         users,
         filteredUsers,
         selected,
-        message,
         searchTerm,
         setSearchTerm,
         handleSelect,
@@ -121,7 +115,6 @@ export function useAdminPanel(token: string | null) {
         handleBlock,
         handleUnblock,
         setSelected,
-        setMessage,
         sortKey,
         sortOrder,
         handleSort

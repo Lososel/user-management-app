@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import Input from '../input/Input.tsx';
 import { registerUser } from '../../api/auth.ts';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface RegisterFormData {
   name: string;
@@ -17,7 +18,6 @@ const RegisterForm: React.FC = () => {
     email: '',
     password: '',
   });
-  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,18 +27,18 @@ const RegisterForm: React.FC = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       const response = await registerUser(data.name, data.email, data.password);
-      setMessage(`${response.message}`);
       if (response.token) {
-        localStorage.setItem('token', response.token)
-        navigate('/admin')
+        localStorage.setItem('token', response.token);
+        toast.success('Registration successful!');
+        navigate('/admin');
       } else {
-
-        navigate('/login')
+        toast.info(response.message || 'Registration completed, please login.');
+        navigate('/login');
       }
       reset();
       setFormData({ name: '', email: '', password: '' });
     } catch (error) {
-      setMessage(`${(error as Error).message}`);
+      toast.error((error as Error).message || 'Registration failed.');
     }
   };
 
@@ -87,11 +87,8 @@ const RegisterForm: React.FC = () => {
             error={errors.password}
             onChange={handleChange}
           />
-
           <button type="submit" className="btn btn-primary w-100 mt-2">Register</button>
         </form>
-
-        {message && <div className="alert alert-info mt-3">{message}</div>}
       </div>
     </div>
   );

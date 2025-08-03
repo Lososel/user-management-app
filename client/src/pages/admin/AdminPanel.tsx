@@ -16,7 +16,6 @@ const AdminPanel: React.FC = () => {
     const {
         filteredUsers,
         selected,
-        message,
         searchTerm,
         sortKey,
         sortOrder,
@@ -59,7 +58,6 @@ const AdminPanel: React.FC = () => {
                 sortKey={sortKey}
                 sortOrder={sortOrder}
                 />
-                {message && <div className="alert alert-primary mt-3">{message}</div>}
             </div>
     </div>
     );

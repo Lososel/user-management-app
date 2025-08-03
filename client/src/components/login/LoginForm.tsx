@@ -3,17 +3,17 @@ import { useForm } from 'react-hook-form';
 import Input from '../input/Input.tsx';
 import { loginUser } from '../../api/auth.ts';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 interface LoginFormData {
-email: string;
+  email: string;
   password: string;
 }
 
 const LoginForm: React.FC = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<LoginFormData>();
   const [formData, setFormData] = useState<LoginFormData>({ email: '', password: '' });
-  const [message, setMessage] = useState('');
   const navigare = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,18 +23,20 @@ const LoginForm: React.FC = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await loginUser(data.email, data.password);
-      setMessage(`${response.message}`);
       
       if (response.token) {
         localStorage.setItem('token', response.token);
+        toast.success('Login successful!');
         navigare('/admin');
+      } else {
+        toast.error(response.message || 'Login failed.');
       }
 
       reset();
       setFormData({ email: '', password: '' });
 
     } catch (error) {
-      setMessage(`${(error as Error).message}`);
+      toast.error((error as Error).message || 'Something went wrong.');
     }
   };
 
@@ -73,7 +75,6 @@ const LoginForm: React.FC = () => {
 
           <button type="submit" className="btn btn-primary w-100 mt-2">Login</button>
         </form>
-        {message && <div className="alert alert-danger mt-3">{message}</div>}
       </div>
     </div>
   );
