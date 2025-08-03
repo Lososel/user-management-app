@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5001/api/users';
+const API_URL = import.meta.env.VITE_API_URL + '/users';
 
 export async function fetchUsers(token: string) {
     const res = await fetch(API_URL, {
